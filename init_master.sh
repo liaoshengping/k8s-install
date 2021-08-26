@@ -41,7 +41,14 @@ cp -i /etc/kubernetes/admin.conf /root/.kube/config
 # 预拉镜像 当然对应的是下面的 flannel 对应的版本，想用最新版的可以 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 # 但是下载最新版的会错误 ，我写了一篇 可以解决  [解决 k8s flannel网络 一直 Init:ImagePullBackOff和coredns状态为Pending](https://blog.csdn.net/qq_22823581/article/details/119932787?spm=1001.2014.3001.5501)
 
-docker pull quay.mirrors.ustc.edu.cn/coreos/flannel:v0.14.0
+#docker pull quay.mirrors.ustc.edu.cn/coreos/flannel:v0.14.0
+#docker pull quay.io/coreos/flannel:v0.14.0
+
+docker pull registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0
+
+docker tag registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0 quay.io/coreos/flannel:v0.14.0
+
+docker rmi registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0
 
 wget https://files.cnblogs.com/files/liaosp/kube-flannel.json -O ./kube-flannel.yml
 
