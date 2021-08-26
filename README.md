@@ -1,45 +1,29 @@
-## Step 1 ： 首先在每台机器上设置hostname
-#### 1.1 : 修改 hostname master.luckyhomemart.com 或者 node1.luckyhomemart.com
+## 修改机器名字和hosts
 `hostnamectl set-hostname master`
-#### 1.2 : 查看修改结果
+
 `hostnamectl status`
-#### 1.3 : 设置 hostname 解析
+
 `echo "192.168.205.31   $(hostname)" >> /etc/hosts`
 
-## Step 2 ：机器检查
-所有节点必须保证以下条件
-- 任意节点 centos 版本为 7.6 / 7.7 或 7.8
-- 任意节点 CPU 内核数量大于等于 2，且内存大于等于 4G
-- 任意节点 hostname 不是 localhost，且不包含下划线、小数点、大写字母
-- 任意节点都有固定的内网 IP 地址
-- 任意节点都只有一个网卡，如果有特殊目的，我可以在完成 K8S 安装后再增加新的网卡
-- 任意节点上 Kubelet使用的 IP 地址 可互通（无需 NAT 映射即可相互访问），且没有防火墙、安全组隔离
-- 任意节点不会直接使用 docker run 或 docker-compose 运行容器
 
+> 执行 `./base_install.sh 1.19.5`
 
-## Step 3 ：base-install.sh 所有节点基础安装
-把 base-install.sh 拷贝到服务器 
-- 执行 这是阿里云镜像地址：
-  `export REGISTRY_MIRROR=https://registry.cn-shanghai.aliyuncs.com`
-- 执行 `./base_install.sh 1.19.5`
-
-## Step 4 : 初始化 Master 节点 （只在 Master 节点执行）
-### 4.1 ：设置变量
-```
-# 只在 master 节点执行
-# 替换 x.x.x.x 为 master 节点实际 IP（请使用内网 IP）
-# export 命令只在当前 shell 会话中有效，开启新的 shell 窗口后，如果要继续安装过程，请重新执行此处的 export 命令
 export MASTER_IP=192.168.205.31
-# 替换 apiserver.luckyhomemart.com 为 您想要的 dnsName 
-export APISERVER_NAME=192.168.205.31
-# Kubernetes 容器组所在的网段，该网段安装完成后，由 kubernetes 创建，事先并不存在于您的物理网络中
+
+这个APISERVER_NAME可以是外网可以访问的
+
+`export APISERVER_NAME=192.168.205.31`
+
+> 创建网段
 export POD_SUBNET=10.100.0.1/16
+
 echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
+
 ```
 
-### 4.2 ：执行 `./init_master.sh 1.19.5`
+ ## 执行 `./init_master.sh 1.19.5`
 
-### 4.3 : 检查执行结果
+
 ```
 # 只在 master 节点执行
 # 执行如下命令，等待 3-10 分钟，直到所有的容器组处于 Running 状态
