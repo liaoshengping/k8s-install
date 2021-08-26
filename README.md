@@ -8,30 +8,27 @@
 
 > 执行 `./base_install.sh 1.19.5`
 
-export MASTER_IP=192.168.205.31
+`export MASTER_IP=192.168.205.31`
 
 这个APISERVER_NAME可以是外网可以访问的
 
 `export APISERVER_NAME=192.168.205.31`
 
-> 创建网段
+创建网段
 export POD_SUBNET=10.100.0.1/16
 
 echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
 
-```
 
- ## 执行 `./init_master.sh 1.19.5`
+> 执行 `./init_master.sh 1.19.5`
 
 
-```
-# 只在 master 节点执行
-# 执行如下命令，等待 3-10 分钟，直到所有的容器组处于 Running 状态
-watch kubectl get pod -n kube-system -o wide
+查看状态
 
-# 查看 master 节点初始化结果
-kubectl get nodes -o wide 
-```
+`watch kubectl get pod -n kube-system -o wide`
+
+`kubectl get nodes -o wide `
+
 
 
 ## Step 5 ：初始化 Worker 节点
