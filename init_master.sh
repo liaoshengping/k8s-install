@@ -37,19 +37,12 @@ rm -rf /root/.kube/
 mkdir /root/.kube/
 cp -i /etc/kubernetes/admin.conf /root/.kube/config
 
-# 拉镜像
-#sudo docker pull registry.cn-shanghai.aliyuncs.com/cap1573/calico/node:v3.13.1
-#sudo docker pull registry.cn-shanghai.aliyuncs.com/cap1573/calico/pod2daemon-flexvol:v3.13.1
-#sudo docker pull registry.cn-shanghai.aliyuncs.com/cap1573/calico/cni:v3.13.1
-#sudo docker pull registry.cn-shanghai.aliyuncs.com/cap1573/calico/kube-controllers:v3.13.1
 
-# 安装 calico 网络插件
-# 参考文档 https://docs.projectcalico.org/v3.13/getting-started/kubernetes/self-managed-onprem/onpremises
-#echo "安装calico-3.13.1"
-#rm -f calico-3.13.1.yaml
-#wget https://kuboard.cn/install-script/calico/calico-3.13.1.yaml
-#kubectl apply -f calico-3.13.1.yaml
+# 预拉镜像 当然对应的是下面的 flannel 对应的版本，想用最新版的可以 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+# 但是下载最新版的会错误 ，我写了一篇 可以解决  [解决 k8s flannel网络 一直 Init:ImagePullBackOff和coredns状态为Pending](https://blog.csdn.net/qq_22823581/article/details/119932787?spm=1001.2014.3001.5501)
 
-docker pull quay.io/coreos/flannel:v0.14.0
+docker pull quay.mirrors.ustc.edu.cn/coreos/flannel:v0.14.0
 
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+wget https://files.cnblogs.com/files/liaosp/kube-flannel.json -O ./kube-flannel.yml
+
+kubectl apply -f kube-flannel.yml

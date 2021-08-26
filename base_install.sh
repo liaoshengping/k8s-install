@@ -33,7 +33,7 @@ mkdir /etc/docker || true
 
 cat > /etc/docker/daemon.json <<EOF
 {
-  "registry-mirrors": ["${REGISTRY_MIRROR}"],
+  "registry-mirrors": ["https://registry.cn-shanghai.aliyuncs.com"],
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
