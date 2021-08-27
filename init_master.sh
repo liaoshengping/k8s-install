@@ -30,7 +30,8 @@ EOF
 # kubeadm init
 # 根据您服务器网速的情况，您需要等候 3 - 10 分钟
 kubeadm config images pull --config=kubeadm-config.yaml
-kubeadm init --config=kubeadm-config.yaml --upload-certs
+
+kubeadm init  --apiserver-advertise-address=${MASTER_IP}  --image-repository registry.aliyuncs.com/google_containers  --kubernetes-version v${1}  --service-cidr=10.2.0.0/16  --pod-network-cidr=${POD_SUBNET}
 
 # 配置 kubectl
 rm -rf /root/.kube/
@@ -44,11 +45,13 @@ cp -i /etc/kubernetes/admin.conf /root/.kube/config
 #docker pull quay.mirrors.ustc.edu.cn/coreos/flannel:v0.14.0
 #docker pull quay.io/coreos/flannel:v0.14.0
 
-docker pull registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0
+#docker pull registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0
 
-docker tag registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0 quay.io/coreos/flannel:v0.14.0
+#docker tag registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0 quay.io/coreos/flannel:v0.14.0
 
-docker rmi registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0
+#docker rmi registry.cn-beijing.aliyuncs.com/liaosp/flannel:v0.14.0  
+
+# 我直接在flannel中已经修改
 
 wget https://files.cnblogs.com/files/liaosp/kube-flannel.json -O ./kube-flannel.yml
 

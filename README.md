@@ -15,7 +15,7 @@
 `export APISERVER_NAME=192.168.205.31`
 
 创建网段
-export POD_SUBNET=10.100.0.1/16
+export POD_SUBNET=10.244.0.0/16
 
 echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
 
@@ -27,7 +27,7 @@ echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
 
 `watch kubectl get pod -n kube-system -o wide`
 
-`kubectl get nodes -o wide `
+`kubectl get nodes -o wide`
 
 
 
@@ -52,7 +52,7 @@ kubeadm join apiserver.luckyhomemart.com:6443 --token o5vmo9.bazxuhkyew9rajvi   
 # 只在 worker 节点执行
 # 替换 x.x.x.x 为 master 节点的内网 IP
 # export 命令只在当前 shell 会话中有效，开启新的 shell 窗口后，如果要继续安装过程，请重新执行此处的 export 命令
-export MASTER_IP=x.x.x.x
+export MASTER_IP=192.168.205.31
 # 替换 apiserver.luckyhomemart.com 为 您想要的 dnsName  用在加入时候的寻找的地址，也可以是域名
 export APISERVER_NAME=192.168.205.31
 echo "${MASTER_IP}    ${APISERVER_NAME}" >> /etc/hosts
